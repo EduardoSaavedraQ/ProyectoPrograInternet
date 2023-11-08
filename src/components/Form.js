@@ -13,6 +13,10 @@ export default function Form(props) {
 	const [passwdInput, setPasswdInput] = useState("");
 	const [hidePass, setHidePass] = useState(true);
 
+	
+
+
+
 	const changePasswdDisplay = () => {
 		setHidePass(!hidePass);
 	}
@@ -20,6 +24,18 @@ export default function Form(props) {
 	const sendData = () => {
 		if(usernameInput != "" && passwdInput != "") {
 			console.log(usernameInput, passwdInput);
+			const xhttp = new XMLHttpRequest();
+
+			xhttp.open("GET", "https://lalosuperwebsite.000webhostapp.com/pruebaConexionProyectoPI.php");
+			xhttp.onload = () => {
+				if(xhttp.status == 200) {
+					console.log(xhttp.responseText);
+				}
+				else {
+					console.log("algo falló");
+				}
+			}
+			xhttp.send();
 		} else {
 			console.log("Contesta lo que se te pide, bruto!");
 		}
