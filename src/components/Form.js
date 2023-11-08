@@ -23,10 +23,11 @@ export default function Form(props) {
 
 	const sendData = () => {
 		if(usernameInput != "" && passwdInput != "") {
-			console.log(usernameInput, passwdInput);
+			//console.log(usernameInput, passwdInput);
 			const xhttp = new XMLHttpRequest();
 
-			xhttp.open("GET", "https://lalosuperwebsite.000webhostapp.com/pruebaConexionProyectoPI.php");
+			xhttp.open("POST", "https://lalosuperwebsite.000webhostapp.com/pruebaConexionProyectoPI.php");
+			xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 			xhttp.onload = () => {
 				if(xhttp.status == 200) {
 					console.log(xhttp.responseText);
@@ -35,7 +36,7 @@ export default function Form(props) {
 					console.log("algo falló");
 				}
 			}
-			xhttp.send();
+			xhttp.send("codigo="+usernameInput+"&nip="+passwdInput);
 		} else {
 			console.log("Contesta lo que se te pide, bruto!");
 		}
