@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native'
-import React, {useEffect, useState} from 'react'
+import React, { useState } from 'react'
 import UserInput from './UserInput'
 import SubmitButton from './SubmitButton'
 
@@ -15,6 +15,14 @@ export default function Form(props) {
 
 	const changePasswdDisplay = () => {
 		setHidePass(!hidePass);
+	}
+
+	const sendData = () => {
+		if(usernameInput != "" && passwdInput != "") {
+			console.log(usernameInput, passwdInput);
+		} else {
+			console.log("Contesta lo que se te pide, bruto!");
+		}
 	}
 
 	return (
@@ -39,7 +47,7 @@ export default function Form(props) {
 				autoCapitalize={'none'}
 				autoCorrect={false} />
 			
-			<SubmitButton style={styles.submitButton}/>
+			<SubmitButton style={styles.submitButton} onPress={sendData}/>
 		</View>
 	)
 }

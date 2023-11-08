@@ -6,7 +6,7 @@ export default function SubmitButton(props) {
 
   return (
     <View style={props.style}>
-			<TouchableOpacity style={styles.submitWrapper}>
+			<TouchableOpacity style={styles.submitWrapper} onPress={props.onPress}>
 				<Text style={styles.submitText}>Ingresar</Text>
 			</TouchableOpacity>
     </View>
