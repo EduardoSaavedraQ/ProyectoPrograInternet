@@ -1,15 +1,18 @@
-import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native'
-import React, { useState } from 'react'
-import UserInput from './UserInput'
-import SubmitButton from './SubmitButton'
+import { View, Text, TouchableOpacity, StyleSheet, Image, Alert } from 'react-native';
+import React, { useState } from 'react';
+import UserInput from './UserInput';
+import SubmitButton from './SubmitButton';
 
-import usernameImage from './../../images/username.png'
-import passwordImg from './../../images/password.png'
-import hidePassLogo from './../../images/hidePassLogo.png'
-import eye_black from './../../images/eye_black.png'
+import usernameImage from './../../images/username.png';
+import passwordImg from './../../images/password.png';
+import hidePassLogo from './../../images/hidePassLogo.png';
+import eye_black from './../../images/eye_black.png';
+
+const ACCESS_DENIED = "Código y/o nip incorrectos";
+const ACCESS_GRANTED = "Acceso concedido";
 
 export default function Form(props) {
-	const [usernameInput, setUsernameInput] = useState("");
+	const [usercodeInput, setUsercodeInput] = useState("");
 	const [passwdInput, setPasswdInput] = useState("");
 	const [hidePass, setHidePass] = useState(true);
 
@@ -18,17 +21,38 @@ export default function Form(props) {
 	}
 
 	const sendData = () => {
-		if(usernameInput != "" && passwdInput != "") {
-			console.log(usernameInput, passwdInput);
-		} else {
-			console.log("Contesta lo que se te pide, bruto!");
-		}
+		if(usercodeInput !== "" && passwdInput !== "")
+			fetch("https://lalosuperwebsite.000webhostapp.com/conexion_bd_votantes.php", {
+				method: 'POST',
+				headers: {
+					Accept: 'application/json',
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					codigo: usercodeInput,
+					nip: passwdInput
+				})
+			})
+			.then(response => response.json())
+			.then(json => {
+				if(json == null) {
+					throw (ACCESS_DENIED);
+				}
+				console.log(json);
+				Alert.alert(ACCESS_GRANTED);
+			})
+			.catch((error) => {
+				console.log(error);
+				if(error == ACCESS_DENIED) {
+					Alert.alert(ACCESS_DENIED);
+				}
+			});
 	}
 
 	return (
 		<View style={[styles.formWrapper, props.style]}>
 			<UserInput source={usernameImage}
-				setInput = {setUsernameInput}
+				setInput = {setUsercodeInput}
 				maxLength={9}
 				placeholder='Ingrese su código'
 				autoCapitalize={'none'}
