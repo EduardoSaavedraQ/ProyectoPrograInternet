@@ -54,6 +54,7 @@ export default function Form(props) {
 			<UserInput source={usernameImage}
 				setInput = {setUsercodeInput}
 				maxLength={9}
+				keyboardType="numeric"
 				placeholder='Ingrese su código'
 				autoCapitalize={'none'}
 				returnKeyType={'done'}

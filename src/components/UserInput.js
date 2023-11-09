@@ -10,6 +10,7 @@ export default function UserInput(props) {
 		<TextInput onChangeText={(input) => props.setInput(input)} style={styles.input}
 				placeholder={props.placeholder}
 				maxLength={props.maxLength}
+				keyboardType={props.keyboardType}
 				secureTextEntry={props.secureTextEntry}
 				autoCorrect={props.autoCorrect}
 				autoCapitalize={props.autoCapitalize}
