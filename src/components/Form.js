@@ -21,9 +21,8 @@ export default function Form(props) {
 		setHidePass(!hidePass);
 	}
 
-	const sendData = () => {
+	/* const sendData = () => {
 		if(usernameInput != "" && passwdInput != "") {
-			//console.log(usernameInput, passwdInput);
 			const xhttp = new XMLHttpRequest();
 
 			xhttp.open("POST", "https://lalosuperwebsite.000webhostapp.com/pruebaConexionProyectoPI.php");
@@ -33,13 +32,33 @@ export default function Form(props) {
 					console.log(xhttp.responseText);
 				}
 				else {
-					console.log("algo falló");
+					console.log("ERROR. STATUS:", xhttp.status);
 				}
 			}
 			xhttp.send("codigo="+usernameInput+"&nip="+passwdInput);
 		} else {
 			console.log("Contesta lo que se te pide, bruto!");
 		}
+	} */
+
+	const sendData = () => {
+		//fetch('https://lalosuperwebsite.000webhostapp.com/pruebaConexionProyectoPI.php', {
+		fetch("https://lalosuperwebsite.000webhostapp.com/pruebaEnvioReactNative.php", {
+			method: 'POST',
+			headers: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				codigo: usernameInput,
+				nip: passwdInput
+			})
+		})
+		.then(response => response.text())
+		.then(text => console.log(text))
+		.catch((error) => {
+			console.log(error);
+		});
 	}
 
 	return (
