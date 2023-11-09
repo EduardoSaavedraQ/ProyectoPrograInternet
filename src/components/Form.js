@@ -54,8 +54,8 @@ export default function Form(props) {
 				nip: passwdInput
 			})
 		})
-		.then(response => response.text())
-		.then(text => console.log(text))
+		.then(response => response.json())
+		.then(json => console.log(json.codigo, json.nip))
 		.catch((error) => {
 			console.log(error);
 		});
