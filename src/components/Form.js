@@ -22,7 +22,7 @@ export default function Form(props) {
 
 	const sendData = () => {
 		if(usercodeInput !== "" && passwdInput !== "")
-			fetch("https://lalosuperwebsite.000webhostapp.com/conexion_bd_votantes.php", {
+			fetch("https://lalosuperwebsite.000webhostapp.com/Proyecto%20Progra%20Internet/conexion_bd_inicio_de_sesion.php", {
 				method: 'POST',
 				headers: {
 					Accept: 'application/json',
