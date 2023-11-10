@@ -17,6 +17,7 @@ export default function AgreementVotationScreen() {
 	.then(json_agreements => {
 		jsonAgreements = json_agreements;
 		console.log(jsonAgreements);
+		console.log(Object.keys(jsonAgreements).length);
 	})
 	.catch(error => {
 		console.error(error);
