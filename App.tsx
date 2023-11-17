@@ -9,10 +9,11 @@ import AgreementVotationScreen from './src/screens/AgreementVotationScreen'
 import Vote from './src/components/Vote'
 import VoteSection from './src/components/VoteSection'
 import SendVoteButton from './src/components/SendVoteButton'
+import Navigator from './src/routes/Navigator'
 
 const App = () => {
   return (
-    <AgreementVotationScreen/>
+    <Navigator/>
   )
 }
 

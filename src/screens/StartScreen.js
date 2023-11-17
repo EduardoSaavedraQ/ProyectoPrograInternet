@@ -3,7 +3,7 @@ import React from 'react'
 
 import EscudoCuceiSrc from './../../images/EscudoCucei.png'
 
-export default function StartScreen() {
+export default function StartScreen({ navigation }) {
   return (
     <View style={styles.pantalla}>
       <Text  style={{fontSize: 45, textAlign: "center"}}>Sistema de votación</Text>
@@ -11,7 +11,7 @@ export default function StartScreen() {
         style={styles.EscudoCucei}
         source={EscudoCuceiSrc}
       />
-      <TouchableOpacity style={styles.BotonIniciar}>
+      <TouchableOpacity style={styles.BotonIniciar} onPress={() => navigation.navigate('Inicio de sesión')}>
         <View>
           <Text style={{fontSize: 45}}>Iniciar</Text>
         </View>
