@@ -9,14 +9,25 @@ export default function CounterWaitingRoomScreen() {
 
     const getRegisteredVoters = async () => {
         const totalVoters = await fetch("https://lalosuperwebsite.000webhostapp.com/Proyecto%20Progra%20Internet/obtener_votantes_registrados.php")
-                        .then(response => response.json())
-                        .catch(error => console.error(error));
+                                .then(response => response.json())
+                                .catch(error => console.error(error));
         
         setRegisteredVoters(parseInt(totalVoters['registeredVoters']));
         console.log(registeredVoters);
     }
 
     getRegisteredVoters();
+
+    const getOnlineVoters = async () => {
+        const votersOnline = await fetch("https://lalosuperwebsite.000webhostapp.com/Proyecto%20Progra%20Internet/obtener_votantes_conectados.php")
+                                    .then(response => response.json())
+                                    .catch(error => console.error(error));
+
+        setOnlineVoters(parseInt(votersOnline['onlineVoters']));
+        console.log(onlineVoters);
+    }
+
+    setInterval(getOnlineVoters, 5000);
 
     return (
     <View>
