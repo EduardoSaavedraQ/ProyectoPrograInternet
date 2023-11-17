@@ -38,7 +38,7 @@ export default function Form( { action, style }) {
 				if(json == null)
 					throw (ACCESS_DENIED);
 
-				if(json['contador'] === 1)
+				if(json['contador'] === "1")
 					action(true);
 				else
 					action();

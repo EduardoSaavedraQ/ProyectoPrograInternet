@@ -1,6 +1,5 @@
 import { View, Text, Image, StyleSheet } from 'react-native'
 import React, { useState } from 'react'
-import UserInput from '../components/UserInput';
 import Form from '../components/Form';
 
 import bgSrc from './../../images/fondo_cucei.jpeg';
@@ -8,7 +7,7 @@ export default function LoginScreen({ navigation }) {
 
 	const navigate = (isCounter = false) => {
 		if(isCounter) {
-			navigation.navigate("");
+			navigation.navigate("Sala de espera del contador");
 		}
 		else {
 			navigation.navigate("Acuerdo");
