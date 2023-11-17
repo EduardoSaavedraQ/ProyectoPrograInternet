@@ -1,14 +1,24 @@
 import { View, Text, Image, StyleSheet } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import UserInput from '../components/UserInput';
 import Form from '../components/Form';
 
 import bgSrc from './../../images/fondo_cucei.jpeg';
-export default function LoginScreen() {
+export default function LoginScreen({ navigation }) {
+
+	const navigate = (isCounter = false) => {
+		if(isCounter) {
+			navigation.navigate("");
+		}
+		else {
+			navigation.navigate("Acuerdo");
+		}
+	}
+
 	return (
 		<View style={styles.container}>
 			<Image source={bgSrc} style={styles.backgroundImage}/>
-			<Form style={styles.form}/>
+			<Form style={styles.form} action={navigate}/>
 		</View>
 	)
 }

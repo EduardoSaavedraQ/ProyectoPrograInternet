@@ -11,7 +11,7 @@ import eye_black from './../../images/eye_black.png';
 const ACCESS_DENIED = "Código y/o nip incorrectos";
 const ACCESS_GRANTED = "Acceso concedido";
 
-export default function Form(props) {
+export default function Form( { action, style }) {
 	const [usercodeInput, setUsercodeInput] = useState("");
 	const [passwdInput, setPasswdInput] = useState("");
 	const [hidePass, setHidePass] = useState(true);
@@ -35,22 +35,30 @@ export default function Form(props) {
 			})
 			.then(response => response.json())
 			.then(json => {
-				if(json == null) {
+				if(json == null)
 					throw (ACCESS_DENIED);
-				}
+
+				if(json['contador'] === 1)
+					action(true);
+				else
+					action();
+
 				console.log(json);
 				Alert.alert(ACCESS_GRANTED);
+
 			})
 			.catch((error) => {
-				console.log(error);
+				console.error(error);
 				if(error == ACCESS_DENIED) {
 					Alert.alert(ACCESS_DENIED);
 				}
 			});
+
 	}
 
+
 	return (
-		<View style={[styles.formWrapper, props.style]}>
+		<View style={[styles.formWrapper, style]}>
 			<UserInput source={usernameImage}
 				setInput = {setUsercodeInput}
 				maxLength={9}
