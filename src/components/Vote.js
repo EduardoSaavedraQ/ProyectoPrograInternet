@@ -1,22 +1,13 @@
 import { useState } from 'react'
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 
-export default function Vote(props) {
-	const [isSelected, setIsSelected] = useState(props.isSelected);
-
-	/* const logIsSelected = () => {
-		console.log(isSelected);
-	} */
-
-	const changeSelectedState = () => {
-		setIsSelected(!isSelected);
-	}
+export default function Vote({value, to_do, label, isSelected}) {
 
 	return (
 		<View style={styles.container}>
-			<Text style={styles.label}>{props.label}</Text>
+			<Text style={styles.label}>{label}</Text>
 			<View style={styles.checboxFrame}>
-				<TouchableOpacity onPress={changeSelectedState}>
+				<TouchableOpacity onPress={() => to_do(value)}>
 					{ isSelected?
 							<View style={[styles.checkboxSelectedPadding, {backgroundColor: "yellow"}]}/>
 						:
