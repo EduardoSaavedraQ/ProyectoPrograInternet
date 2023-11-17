@@ -10,10 +10,11 @@ import Vote from './src/components/Vote'
 import VoteSection from './src/components/VoteSection'
 import SendVoteButton from './src/components/SendVoteButton'
 import Navigator from './src/routes/Navigator'
+import CounterWaitingRoomScreen from './src/screens/CounterWaitingRoomScreen'
 
 const App = () => {
   return (
-    <Navigator/>
+    <CounterWaitingRoomScreen/>
   )
 }
 
