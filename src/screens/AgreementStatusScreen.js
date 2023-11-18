@@ -1,4 +1,4 @@
-import { View, Text, Alert } from 'react-native';
+import { View, Text, Alert, TouchableOpacity, StyleSheet } from 'react-native';
 import React, { useState, useEffect, useRef } from 'react';
 
 const LOAD_AGREEMENT_ERROR = "Error al cargar el acuerdo";
@@ -53,6 +53,20 @@ export default function AgreementStatusScreen({ navigation }) {
     return () => clearInterval(intervalId);
   }, []); // Asegúrate de pasar un array de dependencias vacío para que se ejecute solo una vez */
 
+  const nextAgreement = async () => {
+    try{
+        const response = await fetch("https://lalosuperwebsite.000webhostapp.com/Proyecto%20Progra%20Internet/siguiente_acuerdo.php");
+        
+        if(!response.ok)
+            throw new Error("Algo salió mal. Intente de nuevo");
+
+        navigation.replace("Estatus del acuerdo");
+    } catch(error) {
+        console.error(error);
+        Alert.alert(error);
+    }
+  }
+
   return (
     <View>
       {(currentAgreement === "") ?
@@ -64,6 +78,22 @@ export default function AgreementStatusScreen({ navigation }) {
       <Text>A favor: {currentAgreementStatus.inFavor}</Text>
       <Text>En contra: {currentAgreementStatus.against}</Text>
       <Text>Abstenerce: {currentAgreementStatus.abstention}</Text>
+
+      <TouchableOpacity style={styles.nextButton} onPress={nextAgreement}>
+        <Text style={styles.textButton}>Siguiente Acuerdo</Text>
+      </TouchableOpacity>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+    nextButton: {
+        backgroundColor: "red"
+
+    },
+
+    textButton: {
+        fontSize: 40,
+        color: "white"
+    }
+});

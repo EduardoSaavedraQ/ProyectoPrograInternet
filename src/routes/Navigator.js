@@ -13,7 +13,7 @@ export default function Navigator() {
     return(
         <NavigationContainer>
             <Stack.Navigator>
-                <Stack.Screen name="Estatus de acuerdo" component={AgreementStatusScreen} />
+                <Stack.Screen name="Estatus del acuerdo" component={AgreementStatusScreen} />
                 <Stack.Screen name="Inicio" component={StartScreen} />
                 <Stack.Screen name="Inicio de sesión" component={LoginScreen} />
                 <Stack.Screen name="Acuerdo" component={AgreementVotationScreen} />
