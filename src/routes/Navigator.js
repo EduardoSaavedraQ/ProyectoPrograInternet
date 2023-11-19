@@ -7,6 +7,7 @@ import AgreementVotationScreen from '../screens/AgreementVotationScreen';
 import CounterWaitingRoomScreen from '../screens/CounterWaitingRoomScreen';
 import AgreementStatusScreen from '../screens/AgreementStatusScreen';
 import VoterWaitingRoomScreen from '../screens/VoterWaitingRoomScreen';
+import WaitingRoomBwVotesScreen from '../screens/WaitingRoomBwVotesScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -20,6 +21,7 @@ export default function Navigator() {
                 <Stack.Screen name="Sala de espera del contador" component={CounterWaitingRoomScreen} />
                 <Stack.Screen name="Acuerdo" component={AgreementVotationScreen} />
                 <Stack.Screen name="Estatus del acuerdo" component={AgreementStatusScreen} />
+                <Stack.Screen name="Espera entre acuerdos" component={WaitingRoomBwVotesScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     );

@@ -1,9 +1,9 @@
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import React from 'react'
 
-export default function SendVoteButton(props) {
+export default function SendVoteButton({ style, valueToSend, toDoAfterShipping }) {
   const sendData = () => {
-    //console.log(props.valueToSend);
+    //console.log(valueToSend);
 
     fetch("https://lalosuperwebsite.000webhostapp.com/Proyecto%20Progra%20Internet/actualizar_votos.php", {
       method: 'POST',
@@ -12,7 +12,7 @@ export default function SendVoteButton(props) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        vote: props.valueToSend
+        vote: valueToSend
       })
     })
     .then(response => response.json())
@@ -21,8 +21,11 @@ export default function SendVoteButton(props) {
   }
 
   return (
-    <View style={props.style}>
-      <TouchableOpacity style={styles.buttonWreapper} onPress={sendData}>
+    <View style={style}>
+      <TouchableOpacity style={styles.buttonWreapper} onPress={() => {
+        sendData();
+        toDoAfterShipping();
+      }}>
         <Text style={styles.text}>Enviar</Text>
       </TouchableOpacity>
     </View>

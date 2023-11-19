@@ -51,7 +51,8 @@ export default function VoteSection(props) {
         to_do={setVote}/>
 
       <SendVoteButton style={styles.button}
-      valueToSend={getVoteToSend()}/>
+      valueToSend={getVoteToSend()}
+      toDoAfterShipping={props.toDoAfterShipping}/>
     </View>
   )
 }
