@@ -6,15 +6,33 @@ import bgSRC from "./../../images/gray_background.jpeg";
 
 const LOAD_REGISTERED_VOTERS_ERROR = "Error al obtener los votantes registrados";
 const LOAD_ONLINE_VOTERS_ERROR = "Error al obtener los votantes conectados";
+const START_VOTATION_ERROR = "Error al iniciar la votación intente de nuevo";
 
 export default function CounterWaitingRoomScreen({ navigation }) {
     const [registeredVoters, setRegisteredVoters] = useState(0);
     const [onlineVoters, setOnlineVoters] = useState(0);
 
     const startVotation = async () => {
-        await fetch("https://lalosuperwebsite.000webhostapp.com/Proyecto%20Progra%20Internet/cargar_acuerdos_en_bd.php");
+        try {
+            const response = await fetch("https://lalosuperwebsite.000webhostapp.com/Proyecto%20Progra%20Internet/iniciar_votacion.php");
 
-        navigation.navigate('')
+            if(!response.ok)
+                throw new Error(START_VOTATION_ERROR);
+
+            const json = await response.json();
+            console.log(json);
+
+            navigation.replace('Estatus del acuerdo', {
+                onlineVoters: onlineVoters,
+                agreementAmount: json['AgreementAmount']
+            });
+
+        } catch(error) {
+            console.error(error);
+            
+            if(error === START_VOTATION_ERROR)
+                Alert.alert(error);
+        }
     }
 
     useEffect(() => {
@@ -65,6 +83,7 @@ export default function CounterWaitingRoomScreen({ navigation }) {
         <Text style={styles.votersStatus}>Votantes conectados: {onlineVoters}/{registeredVoters}</Text>
         <StartVotationButton
         style={styles.button}
+        onPress={startVotation}
         />
     </View>
   )
