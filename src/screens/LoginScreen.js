@@ -7,10 +7,10 @@ export default function LoginScreen({ navigation }) {
 
 	const navigate = (isCounter = false) => {
 		if(isCounter) {
-			navigation.navigate("Sala de espera del contador");
+			navigation.replace("Sala de espera del contador");
 		}
 		else {
-			navigation.navigate("Acuerdo");
+			navigation.replace("Sala de espera del votante");
 		}
 	}
 
