@@ -3,11 +3,13 @@ import React, { useState, useEffect, useRef } from 'react';
 
 const LOAD_AGREEMENT_ERROR = "Error al cargar el acuerdo";
 const LOAD_STATUS_AGREEMENT_ERROR = "Error al cargar el estatus del acuerdo";
+const LOAD_NEXT_AGREEMENT_ERROR = "Error al cargar el siguiente acuerdo";
 
 import bgSRC from "./../../images/gray_background.jpeg";
 
 export default function AgreementStatusScreen({ route, navigation }) {
   const [currentAgreement, setCurrentAgreement] = useState("");
+  const [currentAgreementIndex, setCurrentAgreementIndex] = useState(0);
   const [currentAgreementStatus, setCurrentAgreementStatus] = useState({
     inFavor: 0,
     against: 0,
@@ -19,17 +21,32 @@ export default function AgreementStatusScreen({ route, navigation }) {
   }
 
   useEffect(() => {
-    fetch("https://lalosuperwebsite.000webhostapp.com/Proyecto%20Progra%20Internet/obtener_acuerdo_actual.php")
-      .then(response => {
-        if (response.ok) return response.json();
-        throw new Error(LOAD_AGREEMENT_ERROR);
-      })
-      .then(json => setCurrentAgreement(json['current_agreement']))
-      .catch(error => {
+    const fetchCurrentAgreement = async () => {
+      try {
+        const response = await fetch("https://lalosuperwebsite.000webhostapp.com/Proyecto%20Progra%20Internet/obtener_acuerdo_actual.php");
+
+        if(!response.ok)
+          throw new Error(LOAD_AGREEMENT_ERROR);
+
+        const json = await response.json();
+
+        setCurrentAgreement(json['current_agreement']);
+        setCurrentAgreementIndex(parseInt(json['current_agreement_index']));
+
+      } catch(error) {
         console.error(error);
-        if (error === LOAD_AGREEMENT_ERROR) Alert.alert(error);
-      });
+        if(error === LOAD_AGREEMENT_ERROR)
+          Alert.alert(error);
+      }
+    }
+
+    fetchCurrentAgreement();
   }, []);
+
+  useEffect(() => {
+    console.log(currentAgreement, currentAgreementIndex);
+    console.log(route.params);
+  }, [currentAgreement, currentAgreementIndex]);
 
   useEffect(() => {
     const intervalId = setInterval(async () => {
@@ -40,18 +57,16 @@ export default function AgreementStatusScreen({ route, navigation }) {
 
         const json = await response.json();
         
-
         setCurrentAgreementStatus({
           inFavor: parseInt(json['a_favor']), 
           against: parseInt(json['en_contra']),
           abstention: parseInt(json['abstencion'])
         });
 
-        console.log(currentAgreementStatus);
-
       } catch (error) {
         console.log(error);
-        Alert.alert(error);
+        if(error === LOAD_STATUS_AGREEMENT_ERROR)
+          Alert.alert(error);
       }
 
     }, 5000);
@@ -60,18 +75,31 @@ export default function AgreementStatusScreen({ route, navigation }) {
     return () => clearInterval(intervalId);
   }, []); // Asegúrate de pasar un array de dependencias vacío para que se ejecute solo una vez
 
-  const nextAgreement = async () => {
-    try{
-        const response = await fetch("https://lalosuperwebsite.000webhostapp.com/Proyecto%20Progra%20Internet/siguiente_acuerdo.php");
-        
-        if(!response.ok)
-            throw new Error("Algo salió mal. Intente de nuevo");
+  useEffect(() => {
+    console.log(currentAgreementStatus);
+  }, [currentAgreementStatus]);
 
-        navigation.replace("Estatus del acuerdo", route.params);
-    } catch(error) {
-        console.error(error);
-        Alert.alert(error);
-    }
+
+  const nextAgreement = async () => {
+    console.log("Índice del acuerdo:", currentAgreementIndex);
+    console.log("Cantidad de acuerdos:", route.params.agreementAmount);
+    
+    if(currentAgreementIndex === route.params.agreementAmount)
+      navigation.replace('Resumen de votación');
+    else
+      try{
+          const response = await fetch("https://lalosuperwebsite.000webhostapp.com/Proyecto%20Progra%20Internet/siguiente_acuerdo.php");
+          
+          if(!response.ok)
+              throw new Error("Algo salió mal. Intente de nuevo");
+
+          navigation.replace('Estatus del acuerdo', route.params);
+          
+      } catch(error) {
+          console.error(error);
+          if(error === LOAD_NEXT_AGREEMENT_ERROR)
+            Alert.alert(error);
+      }
   }
 
   return (
@@ -91,7 +119,13 @@ export default function AgreementStatusScreen({ route, navigation }) {
       {
         getTotalVotes() === route.params.onlineVoters ? (
           <TouchableOpacity style={styles.nextButton} onPress={nextAgreement}>
-            <Text style={styles.textButton}>Siguiente Acuerdo</Text>
+            {
+              currentAgreementIndex === route.params.agreementAmount? (
+                <Text style={styles.textButton}>Finalizar</Text>
+              ): (
+                <Text style={styles.textButton}>Siguiente Acuerdo</Text>
+              )
+            }
           </TouchableOpacity>
         ): (
           <View/>
@@ -110,17 +144,20 @@ const styles = StyleSheet.create({
 
     agreement: {
       fontSize: 30,
+      color: "white"
     },
 
     totalVotes: {
       fontSize: 30,
       top: "20%",
-      paddingBottom: "10%"
+      paddingBottom: "10%",
+      color: "white"
     },
 
     statusText: {
       fontSize: 30,
-      top: "20%"
+      top: "20%",
+      color: "white"
     },
     
     nextButton: {

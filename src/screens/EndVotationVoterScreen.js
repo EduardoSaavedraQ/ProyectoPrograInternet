@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import bgSRC from "./../../images/gray_background.jpeg";
 
@@ -7,7 +7,8 @@ const LOG_OUT_ERROR = "No se ha podido cerrar la sesión. Intente de nuevo";
 
 export default function EndVotationVoterScreen({ navigation }) {
 
-    const logOUt = async () => {
+    useEffect(() => {
+      const logOut = async () => {
         try{
             const response = await fetch("https://lalosuperwebsite.000webhostapp.com/Proyecto%20Progra%20Internet/decrementar_votantes_conectados.php");
 
@@ -19,10 +20,13 @@ export default function EndVotationVoterScreen({ navigation }) {
             if(error === LOG_OUT_ERROR)
                 Alert.alert(error);
         }
-    }
+      }
 
-    const logOutandgoBackToStart = async () => {
-        logOUt();
+      logOut();
+
+    }, []);
+
+    const goBackToStart = async () => {
         navigation.popToTop();
     }
 
@@ -32,7 +36,7 @@ export default function EndVotationVoterScreen({ navigation }) {
 
       <Text style={styles.text}>Votación terminada</Text>
 
-      <TouchableOpacity onPress={logOutandgoBackToStart} style={styles.buttonWreapper}>
+      <TouchableOpacity onPress={goBackToStart} style={styles.buttonWreapper}>
         <Text style={styles.textButton}>Volver a pantalla de inicio</Text>
       </TouchableOpacity>
     </View>

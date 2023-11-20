@@ -18,7 +18,9 @@ export default function WaitingRoomBwVotesScreen({route, navigation}) {
                 console.log("Acuerdo obtenido:", json['current_agreement']);
 
                 if(json['current_agreement'] !== route.params.currentAgreement)
-                    navigation.replace('Acuerdo');
+                    navigation.replace('Acuerdo', {
+                        agreementAmount: route.params.agreementAmount
+                    });
 
             } catch(error) {
                 console.error(error);

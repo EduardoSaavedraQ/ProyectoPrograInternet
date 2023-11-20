@@ -4,11 +4,11 @@ import VoteSection from '../components/VoteSection';
 
 const LOAD_AGREEMENT_ERROR = "Error al cargar el acuerdo";
 
-//import bgSRC from "./../../images/metalgray_background.jpg";
 import bgSRC from "./../../images/gray_background.jpeg";
 
-export default function AgreementVotationScreen({ navigation }) {
+export default function AgreementVotationScreen({ route, navigation }) {
 	const [currentAgreement, setCurrentAgreement] = useState("");
+	const [currentAgreementIndex, setCurrentAgreementIndex] = useState(0);
 
 	useEffect(() => {
 		const fetchCurrentAgreement = async () => {
@@ -21,6 +21,8 @@ export default function AgreementVotationScreen({ navigation }) {
 				const json = await response.json();
 
 				setCurrentAgreement(json['current_agreement']);
+				setCurrentAgreementIndex(parseInt(json['current_agreement_index']));
+
 			} catch(error) {
 				console.error(error);
 			}
@@ -30,10 +32,18 @@ export default function AgreementVotationScreen({ navigation }) {
 		
 	}, []);
 
+	useEffect(() => {
+		console.log(currentAgreement, currentAgreementIndex);
+	}, [currentAgreement, currentAgreementIndex]);
+
 	const goToWaitingRoomBwVotes = () => {
-		navigation.replace('Espera entre acuerdos', {
-			currentAgreement: currentAgreement
-		});
+		if(currentAgreementIndex !== route.params.agreementAmount)
+			navigation.replace('Espera entre acuerdos', {
+				currentAgreement: currentAgreement,
+				agreementAmount: route.params.agreementAmount
+			});
+		else
+			navigation.replace('Fin de votación para votante');
 	}
 
     return (

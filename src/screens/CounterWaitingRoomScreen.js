@@ -21,10 +21,11 @@ export default function CounterWaitingRoomScreen({ navigation }) {
 
             const json = await response.json();
             console.log(json);
+            console.log("Cantidad de acuerdos:", json['agreementAmount']);
 
             navigation.replace('Estatus del acuerdo', {
                 onlineVoters: onlineVoters,
-                agreementAmount: json['AgreementAmount']
+                agreementAmount: parseInt(json['agreementAmount'])
             });
 
         } catch(error) {
@@ -45,7 +46,8 @@ export default function CounterWaitingRoomScreen({ navigation }) {
     
                 const json = await response.json();
     
-                setRegisteredVoters(json['registeredVoters']);
+                setRegisteredVoters(parseInt(json['registeredVoters']));
+
             } catch(error) {
                 console.error(error);
             }
